@@ -1,0 +1,26 @@
+[project]
+name = "stocksim"
+version = "0.1"
+description = "Simulate stock price over a future period"
+readme = "README.md"
+authors = [{name = "Lyubomir Georgiev"}]
+license = {text = "Apache-2.0"}
+requires-python = ">=3.8"
+classifiers = [
+    "License :: OSI Approved :: Apache Software License"
+]
+dependencies = [
+    "click"
+]
+
+[project.urls]
+Homepage = "https://github.com/LVG77/stocksim"
+Changelog = "https://github.com/LVG77/stocksim/releases"
+Issues = "https://github.com/LVG77/stocksim/issues"
+CI = "https://github.com/LVG77/stocksim/actions"
+
+[project.scripts]
+stocksim = "stocksim.cli:cli"
+
+[project.optional-dependencies]
+test = ["pytest"]
