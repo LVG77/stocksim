@@ -5,12 +5,15 @@ description = "Simulate stock price over a future period"
 readme = "README.md"
 authors = [{name = "Lyubomir Georgiev"}]
 license = {text = "Apache-2.0"}
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "License :: OSI Approved :: Apache Software License"
 ]
 dependencies = [
-    "click"
+    "click",
+    "pandas",
+    "numpy",
+    "yfinance"
 ]
 
 [project.urls]
