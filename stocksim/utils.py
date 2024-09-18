@@ -13,6 +13,27 @@ def run_simulation(
     days: int,
     simulations: int
 ) -> np.ndarray:
+    """
+    Run a Monte Carlo simulation for stock price prediction.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Historical stock price data.
+    returns_dist : ReturnsDistribution
+        Method for generating returns.
+    days : int
+        Number of days for simulation.
+    simulations : int
+        Number of Monte Carlo simulations.
+
+    Returns
+    -------
+    np.ndarray
+        Array of simulated stock price paths. The shape is (days + 1, simulations). The additional day is the last day of the data.
+    """
+    if returns_dist == ReturnsDistribution.bootstrap:
+        # Bootstrap
         # Calculate daily returns
         returns = data['Close'].pct_change().dropna()
 
