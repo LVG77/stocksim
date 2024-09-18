@@ -10,10 +10,10 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License"
 ]
 dependencies = [
-    "click",
     "pandas",
     "numpy",
-    "yfinance"
+    "yfinance",
+    "typer>=0.12.5",
 ]
 
 [project.urls]
@@ -23,7 +23,7 @@ Issues = "https://github.com/LVG77/stocksim/issues"
 CI = "https://github.com/LVG77/stocksim/actions"
 
 [project.scripts]
-stocksim = "stocksim.cli:cli"
+stocksim = "stocksim.cli:app"
 
 [project.optional-dependencies]
 test = ["pytest"]
