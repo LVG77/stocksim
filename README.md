@@ -13,6 +13,13 @@ Install this tool using `pip`:
 ```bash
 pip install stocksim
 ```
+
+You can also run `stocksim` with `uvx` without installing it like so:
+```bash
+uvx --from git+https://github.com/lvg77/stocksim stocksim --ticker AAPL --traget-price 250
+```
+This command will run the tool in temporary venv which will be then discarded
+
 ## Usage
 
 The `stocksim` tool provides a command-line interface to run Monte Carlo simulations for stock price prediction. To use the tool, you can run the following command:
