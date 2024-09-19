@@ -1,21 +1,23 @@
+import rich.rule
 import typer
 import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
 from typing_extensions import Annotated
-from rich import print
+from rich.console import Console
 from rich.progress import Progress, SpinnerColumn
 
 from .utils import run_simulation, ReturnsDistribution
 
 app = typer.Typer(help="Simulate stock price over a future period")
+console = Console()
 
 @app.command()
 def simulate(
     ticker: Annotated[str, typer.Option(..., help="Stock ticker symbol")],
     target_price: Annotated[float, typer.Option(help="Target price for probability calculation")],
     days: Annotated[int, typer.Option(help="Number of days for simulation")] = 30,
-    simulations: Annotated[int, typer.Option('--sims', help="Number of Monte Carlo simulations")] = 1000,
+    simulations: Annotated[int, typer.Option('--runs', help="Number of Monte Carlo simulation runs")] = 1000,
     returns_dist: Annotated[ReturnsDistribution, typer.Option(help="Method for generating returns")] = ReturnsDistribution.bootstrap,
     ever_above: Annotated[float, typer.Option(help="Target price to calculate probability of ever reaching above  (defaults to target_price if not specified)")] = None,
     ever_below: Annotated[float, typer.Option(help="Target price to calculate probability of ever dipping below")] = None
@@ -52,15 +54,16 @@ def simulate(
         
         progress.remove_task(progress.task_ids[0])
         # Output results
-        print(f"Monte Carlo simulation results for [bold yellow on black]{ticker}[/]:")
-        print(f"Number of simulations: {simulations:,}")
-        print(f"Number of days: {days}")
-        print(f"Returns distribution method: [green]{returns_dist.value}")
-        print(f"Target price: ${target_price:.2f}")
-        print(f"Probability of price above target: {prob_above_target:.2%}")
-        print(f"Probability of ever reaching above ${ever_above:.2f}: {prob_ever_above:.2%}")
+        console.print(f"Monte Carlo simulation results for [bold yellow on black]{ticker}[/]:")
+        console.print(f"Number of simulations: {simulations:,}")
+        console.print(f"Number of days: {days}")
+        console.print(f"Returns distribution method: [cyan]{returns_dist.value}")
+        console.print(f"Current price: ${last_price:.2f}")
+        console.print(f"Target price: ${target_price:.2f}")
+        console.print("[bold white]Results: " + "="*40)
+        console.print(f"Probability of price above target: {prob_above_target:.2%}")
+        console.print(f"Probability of ever reaching above ${ever_above:.2f}: {prob_ever_above:.2%}")
         if prob_ever_below is not None:
-            print(f"Probability of ever dipping below ${ever_below:.2f}: {prob_ever_below:.2%}")
-        print(f"Current price: ${last_price:.2f}")
-        print(f"Simulated price range: ${final_prices.min():.2f} - ${final_prices.max():.2f}")
-        print(f"25th-75th percentile range: ${quantile_25:.2f} - ${quantile_75:.2f}")
+            console.print(f"Probability of ever dipping below ${ever_below:.2f}: {prob_ever_below:.2%}")
+        console.print(f"Simulated price range: ${final_prices.min():.2f} - ${final_prices.max():.2f}")
+        console.print(f"25th-75th percentile range: ${quantile_25:.2f} - ${quantile_75:.2f}")
