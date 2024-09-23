@@ -37,6 +37,7 @@ The available options are:
 - `--returns-dist [bootstrap|normal]`: Method for generating returns.
 - `--ever-above FLOAT`: Target price to calculate probability of ever reaching above (defaults to `--target-price` if not specified).
 - `--ever-below FLOAT`: Target price to calculate probability of ever dipping below.
+- `--history`: Number of years of historical data to use. For half year use 0.5.
 
 Here's an example usage:
 
