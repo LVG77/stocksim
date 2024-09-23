@@ -19,7 +19,8 @@ def simulate(
     simulations: Annotated[int, typer.Option('--runs', help="Number of Monte Carlo simulation runs")] = 1000,
     returns_dist: Annotated[ReturnsDistribution, typer.Option(help="Method for generating returns")] = ReturnsDistribution.bootstrap,
     ever_above: Annotated[float, typer.Option(help="Target price to calculate probability of ever reaching above  (defaults to target_price if not specified)")] = None,
-    ever_below: Annotated[float, typer.Option(help="Target price to calculate probability of ever dipping below")] = None
+    ever_below: Annotated[float, typer.Option(help="Target price to calculate probability of ever dipping below")] = None,
+    history_length: Annotated[float, typer.Option('--history', help="Number of years of historical data to use. For half year use 0.5.")] = 5.0
 ):
     """
     Run a Monte Carlo simulation for stock price prediction.
@@ -28,7 +29,7 @@ def simulate(
         progress.add_task(description="Processing...", total=None)
         # Download historical data
         end_date = datetime.now()
-        start_date = end_date - timedelta(days=5*365)  # 5 years ago
+        start_date = end_date - timedelta(days=history_length*365)  # 5 years ago
         data = yf.download(ticker, start=start_date, end=end_date, progress=False)
         
         # simulate future stock prices
@@ -56,6 +57,7 @@ def simulate(
         console.print(f"Monte Carlo simulation results for [bold yellow on black]{ticker}[/]:")
         console.print(f"Number of simulations: {simulations:,}")
         console.print(f"Number of days: {days}")
+        console.print(f"Historical data from {start_date:%Y-%m-%d} to {end_date:%Y-%m-%d}")
         console.print(f"Returns distribution method: [cyan]{returns_dist.value}")
         console.print(f"Current price: ${last_price:.2f}")
         console.print(f"Target price: ${target_price:.2f}")

@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 from typer.testing import CliRunner
 from stocksim.cli import app
+import yfinance as yf
 
 @pytest.fixture
 def mock_yfinance(monkeypatch):
